@@ -12,14 +12,13 @@ target_sources(Generator
         source/generator.hpp
 )
 
+# Test Executable
+
+add_executable(GrammarTest)
+target_sources(GrammarTest PRIVATE test/grammarTest.cpp)
+
 # Main Executable
 
 add_executable(InstrumentGenerator)
-target_sources(InstrumentGenerator
-    PRIVATE
-        source/main.cpp
-)
-target_link_libraries(InstrumentGenerator
-    PRIVATE
-        Generator
-)
+target_sources(InstrumentGenerator PRIVATE source/main.cpp)
+target_link_libraries(InstrumentGenerator PRIVATE Generator)
