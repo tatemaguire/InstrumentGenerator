@@ -1,5 +1,6 @@
 #include <random>
 #include <string>
+#include <cmath>
 
 #include "generator.hpp"
 #include "grammar.hpp"
@@ -94,20 +95,28 @@ Generator::Generator():
 
 // rarity is 0-1
 std::string Generator::generate_instrument(float rarity) {
+    int normal_weight = 100 * (1 - rarity) + 1;
+    int rare_weight = 100 * (1 - 2*std::abs(rarity-0.5)) + 1;
+    int epic_weight = 100 * rarity + 1;
+
+    std::cout << normal_weight << std::endl;
+    std::cout << rare_weight << std::endl;
+    std::cout << epic_weight << std::endl;
+
     Grammar<Grammar<std::string>> instrument_character = {
-        {instrument_character_normal, 1},
-        {instrument_character_rare, 1},
-        {instrument_character_epic, 1},
+        {instrument_character_normal, normal_weight},
+        {instrument_character_rare, rare_weight},
+        {instrument_character_epic, epic_weight},
     };
     Grammar<Grammar<std::string>> instrument_material = {
-        {instrument_material_normal, 1},
-        {instrument_material_rare, 1},
-        {instrument_material_epic, 1},
+        {instrument_material_normal, normal_weight},
+        {instrument_material_rare, rare_weight},
+        {instrument_material_epic, epic_weight},
     };
     Grammar<Grammar<std::string>> instrument_type = {
-        {instrument_type_normal, 1},
-        {instrument_type_rare, 1},
-        {instrument_type_epic, 1},
+        {instrument_type_normal, normal_weight},
+        {instrument_type_rare, rare_weight},
+        {instrument_type_epic, epic_weight},
     };
 
     std::string result = instrument_character()() + "-sounding " + instrument_material()() + " " + instrument_type()();
