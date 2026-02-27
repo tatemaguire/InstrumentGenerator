@@ -96,6 +96,10 @@ const Grammar<std::string> instrument_character_epic = {
 
 // rarity is 0-1
 std::string generate_instrument(float rarity, std::default_random_engine& re) {
+    if (rarity < 0 || rarity > 1) {
+        throw std::out_of_range("generator.cpp: generate_instrument: Rarity must be 0-1");
+    }
+
     int normal_weight = 100 - (200 * rarity);
     int rare_weight = 100 * (1 - 2*std::abs(rarity-0.5));
     int epic_weight = (200 * rarity) - 100;
