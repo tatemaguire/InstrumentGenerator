@@ -24,13 +24,13 @@ int clamp(int v, int lo, int hi) {
 // Declarations
 /////////////////////////////////////
 
-Grammar<std::string> instrument_type_normal = {
+const Grammar<std::string> instrument_type_normal = {
     {"guitar", 1},
     {"bass guitar", 1},
     {"drum kit", 1},
     {"keyboard", 1},
 };
-Grammar<std::string> instrument_type_rare = {
+const Grammar<std::string> instrument_type_rare = {
     {"trumpet", 1},
     {"saxophone", 1},
     {"violin", 1},
@@ -41,7 +41,7 @@ Grammar<std::string> instrument_type_rare = {
     {"oboe", 1},
     {"bassoon", 1},
 };
-Grammar<std::string> instrument_type_epic = {
+const Grammar<std::string> instrument_type_epic = {
     {"theremin", 1},
     {"synthesizer", 1},
     {"drum machine", 1},
@@ -52,38 +52,38 @@ Grammar<std::string> instrument_type_epic = {
     {"bongo", 1},
 };
 
-Grammar<std::string> instrument_material_normal = {
+const Grammar<std::string> instrument_material_normal = {
     {"wooden", 1},
     {"plastic", 1},
     {"copper", 1},
 };
-Grammar<std::string> instrument_material_rare = {
+const Grammar<std::string> instrument_material_rare = {
     {"stone", 1},
     {"steel", 1},
     {"ceramic", 1},
     {"iron", 1},
 };
-Grammar<std::string> instrument_material_epic = {
+const Grammar<std::string> instrument_material_epic = {
     {"rainbow", 1},
     {"holographic", 1},
     {"diamond", 1},
     {"edible", 1},
 };
 
-Grammar<std::string> instrument_character_normal = {
+const Grammar<std::string> instrument_character_normal = {
     {"Squeaky", 1},
     {"Sharp-sounding", 1},
     {"Flat-sounding", 1},
     {"Shrill", 1},
     {"Quiet", 1},
 };
-Grammar<std::string> instrument_character_rare = {
+const Grammar<std::string> instrument_character_rare = {
     {"Smooth-sounding", 1},
     {"Strong-sounding", 1},
     {"Loud", 1},
     {"Sweet-sounding", 1},
 };
-Grammar<std::string> instrument_character_epic = {
+const Grammar<std::string> instrument_character_epic = {
     {"Supersonic", 1},
     {"Magical-sounding", 1},
     {"Alien", 1},
@@ -94,30 +94,22 @@ Grammar<std::string> instrument_character_epic = {
 // Generator Class Definitions
 /////////////////////////////////////
 
-Generator::Generator():
-    seed(random_seed()),
-    re(seed)
-{}
-
-// Generator::Generator(uint32_t seed):
-//     seed(seed),
-//     re(seed)
-// {}
-
 // rarity is 0-1
-std::string Generator::generate_instrument(float rarity) {
+std::string generate_instrument(float rarity, std::default_random_engine& re) {
     int normal_weight = 100 - (200 * rarity);
     int rare_weight = 100 * (1 - 2*std::abs(rarity-0.5));
     int epic_weight = (200 * rarity) - 100;
 
-    normal_weight = clamp(normal_weight, 0, 100) + 1;
-    rare_weight = clamp(rare_weight, 0, 100) + 1;
-    epic_weight = clamp(epic_weight, 0, 100) + 1;
+    // clamp weights to guarantee all weights are at least 1
+    normal_weight = clamp(normal_weight, 1, 100);
+    rare_weight = clamp(rare_weight, 1, 100);
+    epic_weight = clamp(epic_weight, 1, 100);
 
-    std::cout << normal_weight << std::endl;
-    std::cout << rare_weight << std::endl;
-    std::cout << epic_weight << std::endl;
+    // std::cout << normal_weight << std::endl;
+    // std::cout << rare_weight << std::endl;
+    // std::cout << epic_weight << std::endl;
 
+    // create grammars containing nested const grammars
     Grammar<Grammar<std::string>> instrument_character = {
         {instrument_character_normal, normal_weight},
         {instrument_character_rare, rare_weight},
@@ -134,6 +126,6 @@ std::string Generator::generate_instrument(float rarity) {
         {instrument_type_epic, epic_weight},
     };
 
-    std::string result = instrument_character()() + " " + instrument_material()() + " " + instrument_type()();
+    std::string result = instrument_character(re)(re) + " " + instrument_material(re)(re) + " " + instrument_type(re)(re);
     return result;
 }

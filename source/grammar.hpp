@@ -18,18 +18,13 @@ public:
     };
 private:
     std::vector<Entry> entries{};
-
-    std::default_random_engine re;
-    std::random_device::result_type seed;
 public:
     Grammar();
     Grammar(std::initializer_list<Entry> init);
 
-    void set_seed(std::random_device::result_type seed);
-    std::random_device::result_type get_seed();
     void addEntry(T value, int weight);
 
-    T operator()();
+    T operator()(std::default_random_engine& re);
 
     std::string to_string() const;
 };
@@ -42,28 +37,12 @@ std::ostream& operator<<(std::ostream& os, const Grammar<T>& gram);
 /////////////////////////////////////
 
 template<class T>
-Grammar<T>::Grammar() {
-    std::random_device rd;
-    seed = rd();
-    re.seed(seed);
-}
+Grammar<T>::Grammar() {}
 
 template<class T>
-Grammar<T>::Grammar(std::initializer_list<Entry> init):
-    Grammar()
+Grammar<T>::Grammar(std::initializer_list<Entry> init)
 {
     entries = init;
-}
-
-template<class T>
-void Grammar<T>::set_seed(std::random_device::result_type num) {
-    seed = num;
-    re.seed(seed);
-}
-
-template<class T>
-std::random_device::result_type Grammar<T>::get_seed() {
-    return seed;
 }
 
 template<class T>
@@ -73,7 +52,7 @@ void Grammar<T>::addEntry(T value, int weight) {
 }
 
 template<class T>
-T Grammar<T>::operator()() {
+T Grammar<T>::operator()(std::default_random_engine& re) {
     int sum = 0;
     for (const Entry& e : entries) {
         sum += e.weight;

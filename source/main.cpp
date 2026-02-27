@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <random>
 
 #include "generator.hpp"
 
@@ -11,8 +12,10 @@ int main(int argc, char* argv[]) {
 
     float rarity = std::stof(argv[1]);
 
-    Generator gen = Generator();
-    std::string instr = gen.generate_instrument(rarity);
+    std::random_device rd;
+    std::default_random_engine re(rd());
+
+    std::string instr = generate_instrument(rarity, re);
 
     std::cout << instr << std::endl;
 
