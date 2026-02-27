@@ -12,7 +12,7 @@ cmake --build build
 ```
 3. **Run**
 ```sh
-build/InstrumentGenerator <rarity 0-1>
+build/InstrumentGenerator
 ```
 
 # Sample Output
