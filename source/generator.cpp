@@ -72,22 +72,22 @@ const Grammar<std::string> instrument_material_epic = {
 
 const Grammar<std::string> instrument_character_normal = {
     {"Squeaky", 1},
-    {"Sharp-sounding", 1},
-    {"Flat-sounding", 1},
+    {"Sharp", 1},
+    {"Flat", 1},
     {"Shrill", 1},
     {"Quiet", 1},
 };
 const Grammar<std::string> instrument_character_rare = {
-    {"Smooth-sounding", 1},
-    {"Strong-sounding", 1},
+    {"Smooth", 1},
+    {"Strong", 1},
     {"Loud", 1},
-    {"Sweet-sounding", 1},
+    {"Sweet", 1},
 };
 const Grammar<std::string> instrument_character_epic = {
     {"Supersonic", 1},
-    {"Magical-sounding", 1},
+    {"Magical", 1},
     {"Alien", 1},
-    {"Beautiful-sounding", 1},
+    {"Beautiful", 1},
 };
 
 /////////////////////////////////////
