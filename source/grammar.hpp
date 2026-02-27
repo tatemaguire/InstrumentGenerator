@@ -24,7 +24,7 @@ public:
 
     void addEntry(T value, int weight);
 
-    T operator()(std::default_random_engine& re);
+    T operator()(std::default_random_engine& re) const;
 
     std::string to_string() const;
 };
@@ -52,7 +52,7 @@ void Grammar<T>::addEntry(T value, int weight) {
 }
 
 template<class T>
-T Grammar<T>::operator()(std::default_random_engine& re) {
+T Grammar<T>::operator()(std::default_random_engine& re) const {
     int sum = 0;
     for (const Entry& e : entries) {
         sum += e.weight;
