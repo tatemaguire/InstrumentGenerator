@@ -4,18 +4,16 @@
 #include <random>
 
 struct Instrument {
-    std::string name = "Guitar";
+    std::string name;
 };
 
 class Generator {
 private:
-    typedef std::random_device::result_type seed_type;
-
-    seed_type seed;
+    uint32_t seed;
     std::default_random_engine re;
 public:
     Generator();
-    Generator(seed_type seed);
+    // Generator(uint32_t seed);
 
-    Instrument generate_instrument(unsigned char rarity);
+    std::string generate_instrument(float rarity);
 };
