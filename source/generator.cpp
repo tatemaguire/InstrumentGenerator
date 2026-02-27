@@ -16,25 +16,25 @@ Grammar<std::string> instrument_type_normal = {
     {"keyboard", 1},
 };
 Grammar<std::string> instrument_type_rare = {
+    {"trumpet", 1},
+    {"saxophone", 1},
+    {"violin", 1},
+    {"viola", 1},
+    {"cello", 1},
+    {"upright bass", 1},
+    {"flute", 1},
+    {"oboe", 1},
+    {"bassoon", 1},
+};
+Grammar<std::string> instrument_type_epic = {
     {"theremin", 1},
     {"synthesizer", 1},
     {"drum machine", 1},
     {"harpsichord", 1},
     {"harp", 1},
-    {"trumpet", 1},
-    {"saxophone", 1},
-};
-Grammar<std::string> instrument_type_epic = {
-    {"violin", 1},
-    {"viola", 1},
-    {"cello", 1},
-    {"upright bass", 1},
     {"choir", 1},
     {"triangle", 1},
     {"bongo", 1},
-    {"flute", 1},
-    {"oboe", 1},
-    {"bassoon", 1}
 };
 
 Grammar<std::string> instrument_material_normal = {
@@ -60,18 +60,19 @@ Grammar<std::string> instrument_character_normal = {
     {"Sharp", 1},
     {"Flat", 1},
     {"Shrill", 1},
+    {"Quiet", 1},
 };
 Grammar<std::string> instrument_character_rare = {
     {"Smooth", 1},
     {"Strong", 1},
-    {"Flat", 1},
-    {"Shrill", 1},
+    {"Loud", 1},
+    {"Sweet", 1},
 };
 Grammar<std::string> instrument_character_epic = {
-    {"Smooth", 1},
-    {"Strong", 1},
-    {"Flat", 1},
-    {"Shrill", 1},
+    {"Supersonic", 1},
+    {"Magical", 1},
+    {"Alien", 1},
+    {"Beautiful", 1},
 };
 
 uint32_t random_seed() {
@@ -99,9 +100,9 @@ std::string Generator::generate_instrument(float rarity) {
     int rare_weight = 100 * (1 - 2*std::abs(rarity-0.5)) + 1;
     int epic_weight = 100 * rarity + 1;
 
-    std::cout << normal_weight << std::endl;
-    std::cout << rare_weight << std::endl;
-    std::cout << epic_weight << std::endl;
+    // std::cout << normal_weight << std::endl;
+    // std::cout << rare_weight << std::endl;
+    // std::cout << epic_weight << std::endl;
 
     Grammar<Grammar<std::string>> instrument_character = {
         {instrument_character_normal, normal_weight},

@@ -4,9 +4,15 @@
 #include "generator.hpp"
 
 int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cout << "Usage: " << argv[0] << " <rarity 0-1>" << std::endl;
+        return 1;
+    }
+
+    float rarity = std::stof(argv[1]);
 
     Generator gen = Generator();
-    std::string instr = gen.generate_instrument(1);
+    std::string instr = gen.generate_instrument(rarity);
 
     std::cout << instr << std::endl;
 
